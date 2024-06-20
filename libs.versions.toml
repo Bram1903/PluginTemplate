@@ -1,0 +1,13 @@
+[versions]
+paper = "1.21-R0.1-SNAPSHOT"
+run-paper = "2.3.0"
+lombok = "1.18.30"
+shadow = "8.1.1"
+
+[libraries]
+paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+
+[plugins]
+run-paper = { id = "xyz.jpenilla.run-paper", version.ref = "run-paper" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
