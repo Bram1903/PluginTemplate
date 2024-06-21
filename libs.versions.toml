@@ -1,5 +1,6 @@
 [versions]
 paper = "1.21-R0.1-SNAPSHOT"
+packetevents = "2.3.1-SNAPSHOT"
 run-paper = "2.3.0"
 lombok = "1.18.30"
 shadow = "8.1.1"
@@ -7,6 +8,7 @@ shadow = "8.1.1"
 [libraries]
 paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+packetevents-spigot = { group = "com.github.retrooper", name = "packetevents-spigot", version.ref = "packetevents" }
 
 [plugins]
 run-paper = { id = "xyz.jpenilla.run-paper", version.ref = "run-paper" }

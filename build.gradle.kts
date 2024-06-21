@@ -4,14 +4,16 @@ plugins {
     alias(libs.plugins.run.paper)
 }
 
-group = "your.package.naming"
-description = "Plugin Template"
+group = "com.deathmotion.TestPlugin"
+description = "Test Plugin"
 version = "1.0.0-SNAPSHOT"
 
 repositories {
     mavenLocal()
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.codemc.io/repository/maven-releases/")
+    maven("https://repo.codemc.io/repository/maven-snapshots/")
 }
 
 java {
@@ -21,6 +23,7 @@ java {
 
 dependencies {
     compileOnly(libs.paper)
+    compileOnly(libs.packetevents.spigot)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 }
@@ -68,12 +71,16 @@ tasks {
     // 1.17           = Java 16
     // 1.18 - 1.20.4  = Java 17
     // 1-20.5+        = Java 21
-    val version = "1.20.6"
+    val version = "1.21"
     val javaVersion = JavaLanguageVersion.of(21)
 
     val jvmArgsExternal = listOf(
         "-Dcom.mojang.eula.agree=true"
     )
+
+    val requiredPlugins = runPaper.downloadPluginsSpec {
+        url("https://ci.codemc.io/job/retrooper/job/packetevents/lastSuccessfulBuild/artifact/spigot/build/libs/packetevents-spigot-2.3.1-SNAPSHOT.jar")
+    }
 
     runServer {
         minecraftVersion(version)
@@ -82,6 +89,8 @@ tasks {
         javaLauncher = project.javaToolchains.launcherFor {
             languageVersion = javaVersion
         }
+
+        downloadPlugins.from(requiredPlugins)
 
         jvmArgs = jvmArgsExternal
     }
@@ -93,6 +102,8 @@ tasks {
         javaLauncher = project.javaToolchains.launcherFor {
             languageVersion = javaVersion
         }
+
+        downloadPlugins.from(requiredPlugins)
 
         jvmArgs = jvmArgsExternal
     }

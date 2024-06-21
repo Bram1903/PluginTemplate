@@ -1,16 +1,19 @@
-package com.plugin.template;
+package com.deathmotion.testplugin;
 
-import com.plugin.template.commands.TestCommand;
-import com.plugin.template.events.TestEvent;
+import com.deathmotion.testplugin.commands.TestCommand;
+import com.deathmotion.testplugin.events.TestEvent;
+import com.deathmotion.testplugin.packetlistener.TestListener;
+import com.github.retrooper.packetevents.PacketEvents;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main extends JavaPlugin {
+public class TestPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        RegisterPacketListeners();
         registerEvents();
         registerCommands();
 
@@ -20,6 +23,11 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage(Component.text("The plugin has successfully been disabled!", NamedTextColor.GREEN));
+    }
+
+    private void RegisterPacketListeners() {
+        // Register your new packet listeners here
+        PacketEvents.getAPI().getEventManager().registerListener(new TestListener());
     }
 
     private void registerEvents() {

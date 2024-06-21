@@ -6,4 +6,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "yourProjectName"
+rootProject.name = "TestPlugin"
