@@ -31,10 +31,6 @@ dependencies {
 tasks {
     jar {
         enabled = false
-
-        manifest {
-            attributes["Implementation-Version"] = project.version
-        }
     }
 
     processResources {
@@ -54,6 +50,9 @@ tasks {
         archiveClassifier = null
 
         minimize()
+        manifest {
+            attributes["Implementation-Version"] = project.version
+        }
     }
 
     assemble {
