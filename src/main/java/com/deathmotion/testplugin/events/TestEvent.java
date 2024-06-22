@@ -33,6 +33,8 @@ public class TestEvent implements Listener {
 
         if (retrievedEntity != null) {
             Bukkit.getConsoleSender().sendMessage(Component.text("Entity with ID " + entityId + " has been retrieved through the conversion utility.", NamedTextColor.GREEN));
+        } else {
+            Bukkit.getConsoleSender().sendMessage(Component.text("Entity with ID " + entityId + " could not be retrieved through the conversion utility.", NamedTextColor.RED));
         }
     }
 }
