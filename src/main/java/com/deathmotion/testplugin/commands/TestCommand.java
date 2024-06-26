@@ -1,8 +1,6 @@
 package com.deathmotion.testplugin.commands;
 
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,7 +21,7 @@ public class TestCommand implements CommandExecutor {
         com.github.retrooper.packetevents.protocol.item.ItemStack packetItem = SpigotConversionUtil.fromBukkitItemStack(item);
         item = SpigotConversionUtil.toBukkitItemStack(packetItem);
 
-        sender.sendMessage(Component.text("Conversion successful!\n " + item.toString(), NamedTextColor.GREEN));
+        sender.sendMessage("ItemStack has been converted to PacketEvents ItemStack and back to Bukkit ItemStack.");
 
         return true;
     }
