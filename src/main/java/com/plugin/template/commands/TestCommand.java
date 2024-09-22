@@ -1,28 +1,29 @@
 package com.plugin.template.commands;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import dev.jorel.commandapi.CommandAPICommand;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
-public class TestCommand implements CommandExecutor {
+public class TestCommand {
 
-    public TestCommand(JavaPlugin plugin) {
-        plugin.getCommand("test").setExecutor(this);
-    }
+    private void registerTestCommand() {
+        new CommandAPICommand("repair")
+                .withRequirement(sender -> ((Player) sender).getLevel() >= 30)
+                .executesPlayer((player, args) -> {
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Component.text("Hello Console!", NamedTextColor.GREEN));
-            return true;
-        }
+                    // Repair the item back to full durability
+                    ItemStack is = player.getInventory().getItemInMainHand();
+                    ItemMeta itemMeta = is.getItemMeta();
+                    if (itemMeta instanceof Damageable damageable) {
+                        damageable.damage(0);
+                        is.setItemMeta(itemMeta);
+                    }
 
-        sender.sendMessage(Component.text("Hello Player!", NamedTextColor.GREEN));
-        return true;
+                    // Subtract 30 levels
+                    player.setLevel(player.getLevel() - 30);
+                })
+                .register();
     }
 }

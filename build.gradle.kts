@@ -1,12 +1,9 @@
 plugins {
-    java
+    `java-library`
+    `maven-publish`
     alias(libs.plugins.shadow)
     alias(libs.plugins.run.paper)
 }
-
-group = "your.package.naming"
-description = "Plugin Template"
-version = "1.0.0-SNAPSHOT"
 
 repositories {
     mavenLocal()
@@ -15,40 +12,34 @@ repositories {
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
     disableAutoTargetJvm()
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
 dependencies {
-    compileOnly(libs.paper)
+    compileOnly(libs.paper.api)
+    compileOnly(libs.commandapi)
+    compileOnly(libs.configlib.yaml)
+    compileOnly(libs.configlib.paper)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 }
+
+group = "com.plugin.template"
+version = "0.0.1-SNAPSHOT"
+description = "Plugin Description"
 
 tasks {
     jar {
         enabled = false
     }
 
-    processResources {
-        inputs.property("name", rootProject.name)
-        inputs.property("version", project.version)
-
-        filesMatching(listOf("plugin.yml")) {
-            expand(
-                "name" to rootProject.name,
-                "version" to rootProject.version,
-            )
-        }
-    }
-
     shadowJar {
         archiveFileName = "${rootProject.name}-${project.version}.jar"
         archiveClassifier = null
 
-        minimize()
         manifest {
-            attributes["Implementation-Version"] = project.version
+            attributes["Implementation-Version"] = rootProject.version
         }
     }
 
@@ -58,7 +49,23 @@ tasks {
 
     withType<JavaCompile> {
         options.encoding = Charsets.UTF_8.name()
-        options.release.set(17)
+        options.release = 17
+    }
+
+    withType<Javadoc>() {
+        options.encoding = Charsets.UTF_8.name()
+    }
+
+    processResources {
+        inputs.property("version", project.version)
+        inputs.property("configlibVersion", libs.versions.configlib.get())
+
+        filesMatching("plugin.yml") {
+            expand(
+                "version" to rootProject.version,
+                "configlibVersion" to libs.versions.configlib.get()
+            )
+        }
     }
 
     defaultTasks("build")
@@ -67,7 +74,7 @@ tasks {
     // 1.17           = Java 16
     // 1.18 - 1.20.4  = Java 17
     // 1-20.5+        = Java 21
-    val version = "1.20.6"
+    val version = "1.21.1"
     val javaVersion = JavaLanguageVersion.of(21)
 
     val jvmArgsExternal = listOf(
@@ -76,21 +83,14 @@ tasks {
 
     runServer {
         minecraftVersion(version)
-        runDirectory = file("run/paper/$version")
+        runDirectory = rootDir.resolve("run/paper/$version")
 
         javaLauncher = project.javaToolchains.launcherFor {
             languageVersion = javaVersion
         }
 
-        jvmArgs = jvmArgsExternal
-    }
-
-    runPaper.folia.registerTask {
-        minecraftVersion(version)
-        runDirectory = file("run/folia/$version")
-
-        javaLauncher = project.javaToolchains.launcherFor {
-            languageVersion = javaVersion
+        downloadPlugins {
+            url("https://github.com/JorelAli/CommandAPI/releases/download/9.5.3/CommandAPI-9.5.3.jar")
         }
 
         jvmArgs = jvmArgsExternal
