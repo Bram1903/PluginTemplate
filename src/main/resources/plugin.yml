@@ -5,3 +5,8 @@ api-version: '1.21'
 authors: [ Bram ]
 description: Your plugin description here.
 load: POSTWORLD
+commands:
+  hello:
+    description: Say hello back to the player.
+    usage: /hello
+    aliases: [ hi, hey ]
