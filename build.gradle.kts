@@ -84,6 +84,11 @@ tasks {
             languageVersion = javaVersion
         }
 
+        downloadPlugins {
+            url("https://github.com/ViaVersion/ViaVersion/releases/download/5.4.1/ViaVersion-5.4.1.jar")
+            url("https://github.com/ViaVersion/ViaBackwards/releases/download/5.4.1/ViaBackwards-5.4.1.jar")
+        }
+
         jvmArgs = jvmArgsExternal
     }
 }
