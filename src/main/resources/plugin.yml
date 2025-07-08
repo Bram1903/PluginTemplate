@@ -5,7 +5,3 @@ api-version: '1.21'
 authors: [ Bram ]
 description: Your plugin description here.
 load: POSTWORLD
-depend: [CommandAPI]
-libraries:
-  - de.exlll:configlib-yaml:${configlibVersion}
-  - de.exlll:configlib-paper:${configlibVersion}

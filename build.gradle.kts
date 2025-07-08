@@ -18,9 +18,6 @@ java {
 
 dependencies {
     compileOnly(libs.paper.api)
-    compileOnly(libs.commandapi)
-    compileOnly(libs.configlib.yaml)
-    compileOnly(libs.configlib.paper)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 }
@@ -58,12 +55,10 @@ tasks {
 
     processResources {
         inputs.property("version", project.version)
-        inputs.property("configlibVersion", libs.versions.configlib.get())
 
         filesMatching("plugin.yml") {
             expand(
                 "version" to rootProject.version,
-                "configlibVersion" to libs.versions.configlib.get()
             )
         }
     }
@@ -74,7 +69,7 @@ tasks {
     // 1.17           = Java 16
     // 1.18 - 1.20.4  = Java 17
     // 1-20.5+        = Java 21
-    val version = "1.21.1"
+    val version = "1.21.7"
     val javaVersion = JavaLanguageVersion.of(21)
 
     val jvmArgsExternal = listOf(
@@ -87,10 +82,6 @@ tasks {
 
         javaLauncher = project.javaToolchains.launcherFor {
             languageVersion = javaVersion
-        }
-
-        downloadPlugins {
-            url("https://github.com/JorelAli/CommandAPI/releases/download/9.5.3/CommandAPI-9.5.3.jar")
         }
 
         jvmArgs = jvmArgsExternal
